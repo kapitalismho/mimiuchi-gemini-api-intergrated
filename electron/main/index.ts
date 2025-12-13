@@ -10,6 +10,7 @@ import { WebSocket, WebSocketServer } from 'ws'
 import { check_update } from './modules/check_update.js'
 import { emit_osc, empty_queue } from './modules/osc.js'
 import { initialize_wsserver } from './modules/wsserver.js'
+import { getGeminiTranslationService } from './modules/gemini-translation.js'
 
 interface Schema {
   'win_bounds': object
@@ -287,3 +288,43 @@ ipcMain.on('delete-auto-open-web-app-on-launch', () => {
 ipcMain.on('transformers-translate', async (event, args) => {
   transformersWorker.postMessage({ type: 'transformers-translate', data: args })
 })
+
+// Gemini Translation Service IPC Handlers
+// Based on specs/001-gemini-api-translation/contracts/ipc-messages.md
+
+// Validate Gemini API Key
+ipcMain.handle('gemini-validate-key', async (_event, apiKey: string) => {
+  const service = getGeminiTranslationService()
+  return await service.validateApiKey(apiKey)
+})
+
+// Get Gemini configuration (without API key)
+ipcMain.handle('gemini-get-config', async () => {
+  const service = getGeminiTranslationService()
+  return service.getConfig()
+})
+
+// Save Gemini configuration
+ipcMain.handle('gemini-save-config', async (_event, config: {
+  api_key?: string;
+  model: string;
+  system_prompt: string;
+}) => {
+  try {
+    const service = getGeminiTranslationService()
+    service.saveConfig(config)
+    return { success: true }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+})
+
+// Translate text using Gemini
+ipcMain.on('gemini-translate', async (_event, args) => {
+  const service = getGeminiTranslationService()
+  const request = JSON.parse(args)
+
+  const result = await service.translate(request)
+  win?.webContents.send('gemini-translate-render', result)
+})
+

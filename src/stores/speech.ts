@@ -321,12 +321,25 @@ export const useSpeechStore = defineStore('speech', () => {
       // translate if not translating and enabled
       if (is_electron() && translationStore.enabled && !log.translate && !log.translation) {
         logsStore.logs[i].translate = true
-        window.ipcRenderer.send('transformers-translate', {
-          text: log.transcript,
-          src_lang: translationStore.source,
-          tgt_lang: translationStore.target,
-          index: i,
-        })
+
+        if (translationStore.type === 'Gemini') {
+          // Use Gemini API translation
+          window.ipcRenderer.send('gemini-translate', JSON.stringify({
+            text: log.transcript,
+            source_lang: translationStore.source,
+            target_lang: translationStore.target,
+            index: i,
+            timestamp: Date.now(),
+          }))
+        } else {
+          // Use Transformers.js translation
+          window.ipcRenderer.send('transformers-translate', {
+            text: log.transcript,
+            src_lang: translationStore.source,
+            tgt_lang: translationStore.target,
+            index: i,
+          })
+        }
       }
 
       // timestamp

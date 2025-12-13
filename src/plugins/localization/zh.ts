@@ -157,6 +157,23 @@ export default {
         link: '桌面版本',
         kaomoji: '(＾・ω・＾)',
       },
+      // Gemini API 设置
+      gemini: {
+        api_key: 'API 密钥',
+        api_key_placeholder: '请输入您的 Gemini API 密钥',
+        validate_key: '验证',
+        validating: '验证中...',
+        valid: 'API 密钥有效',
+        invalid: '无效的 API 密钥',
+        model: '模型',
+        model_hint: '选择 Gemini 模型（推荐：gemini-2.5-flash）',
+        system_prompt: '系统提示',
+        system_prompt_hint: '翻译器的自定义指令（例如："像海盗一样说话"，"使用休闲的VRChat俚语"）',
+        system_prompt_placeholder: '输入自定义翻译指令（可选）',
+        cloud_notice: 'Gemini 是云端翻译服务。您的文本将发送到 Google 服务器。',
+        error: '翻译错误：{error}',
+        recommended: '推荐',
+      },
     },
     connections: {
       title: '连接',

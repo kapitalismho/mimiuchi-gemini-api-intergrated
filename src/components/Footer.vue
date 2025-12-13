@@ -237,6 +237,11 @@ onMounted(() => {
     window.ipcRenderer.on('transformers-translate-render', (event: any, data: any) => {
       translationStore.onMessageReceived(data)
     })
+
+    // Gemini translation response
+    window.ipcRenderer.on('gemini-translate-render', (event: any, data: any) => {
+      translationStore.onGeminiResponse(data)
+    })
   }
 
   speechStore.initialize_speech(speechStore.stt.language)
@@ -260,6 +265,7 @@ onUnmounted(() => {
     // Speech
     window.ipcRenderer.removeListener('receive-text-event')
     window.ipcRenderer.removeListener('transformers-translate-render')
+    window.ipcRenderer.removeListener('gemini-translate-render')
   }
 })
 

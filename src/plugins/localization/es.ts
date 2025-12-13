@@ -156,6 +156,23 @@ export default {
         link: 'Aplicación de Escritorio',
         kaomoji: '(^・ω・^)',
       },
+      // Configuración de Gemini API
+      gemini: {
+        api_key: 'Clave API',
+        api_key_placeholder: 'Ingrese su clave API de Gemini',
+        validate_key: 'Validar',
+        validating: 'Validando...',
+        valid: 'Clave API válida',
+        invalid: 'Clave API inválida',
+        model: 'Modelo',
+        model_hint: 'Seleccione un modelo Gemini (recomendado: gemini-2.5-flash)',
+        system_prompt: 'Instrucción del sistema',
+        system_prompt_hint: 'Instrucciones personalizadas para el traductor (ej., "Habla como un pirata", "Usa argot casual de VRChat")',
+        system_prompt_placeholder: 'Ingrese instrucciones de traducción personalizadas (opcional)',
+        cloud_notice: 'Gemini es un servicio de traducción en la nube. Su texto se enviará a los servidores de Google.',
+        error: 'Error de traducción: {error}',
+        recommended: 'Recomendado',
+      },
     },
     connections: {
       title: 'Conexiones',

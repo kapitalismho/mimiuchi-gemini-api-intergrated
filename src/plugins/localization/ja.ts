@@ -179,6 +179,23 @@ export default {
         link: 'デスクトップアプリ版',
         kaomoji: '(^・ω・^)',
       },
+      // Gemini API設定
+      gemini: {
+        api_key: 'APIキー',
+        api_key_placeholder: 'Gemini APIキーを入力してください',
+        validate_key: '検証',
+        validating: '検証中...',
+        valid: 'APIキーは有効です',
+        invalid: '無効なAPIキー',
+        model: 'モデル',
+        model_hint: 'Geminiモデルを選択（推奨: gemini-2.5-flash）',
+        system_prompt: 'システムプロンプト',
+        system_prompt_hint: '翻訳者へのカスタム指示（例：「海賊のように話す」、「カジュアルなVRChatスラングを使う」）',
+        system_prompt_placeholder: 'カスタム翻訳指示を入力（オプション）',
+        cloud_notice: 'Geminiはクラウドベースの翻訳サービスです。テキストはGoogleサーバーに送信されます。',
+        error: '翻訳エラー: {error}',
+        recommended: '推奨',
+      },
     },
     connections: {
       title: '接続',
