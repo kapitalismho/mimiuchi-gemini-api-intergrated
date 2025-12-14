@@ -7,6 +7,11 @@ declare module '*.vue' {
   export default component
 }
 
+declare module '*.txt?raw' {
+  const content: string
+  export default content
+}
+
 interface Window {
   // expose in the `electron/preload/index.ts`
   ipcRenderer: import('electron').IpcRenderer

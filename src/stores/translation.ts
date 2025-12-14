@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useLogsStore } from '@/stores/logs'
 import { useSpeechStore } from '@/stores/speech'
+import { DEFAULT_GEMINI_SYSTEM_PROMPT } from '@/constants/gemini_models'
 
 export const useTranslationStore = defineStore('translation', () => {
   const enabled = ref(false)
@@ -15,7 +16,7 @@ export const useTranslationStore = defineStore('translation', () => {
   // Gemini-specific configuration
   const gemini_api_key = ref('')
   const gemini_model = ref('gemini-2.5-flash')
-  const gemini_system_prompt = ref('')
+  const gemini_system_prompt = ref(DEFAULT_GEMINI_SYSTEM_PROMPT)
   const gemini_api_key_valid = ref(false)
   const gemini_last_error = ref('')
 
@@ -142,7 +143,7 @@ export const useTranslationStore = defineStore('translation', () => {
     show_original.value = true
     gemini_api_key.value = ''
     gemini_model.value = 'gemini-2.5-flash'
-    gemini_system_prompt.value = ''
+    gemini_system_prompt.value = DEFAULT_GEMINI_SYSTEM_PROMPT
     gemini_api_key_valid.value = false
     gemini_last_error.value = ''
   }

@@ -116,6 +116,33 @@ interface GeminiStoreSchema {
     timeout_ms: number
 }
 
+// Load default system prompt from external file
+function loadDefaultPrompt(): string {
+    const fallbackPrompt = 'You are a professional translator. Translate the following text from ${sourceName} to ${targetName}. Output ONLY the translated text without any explanations.'
+
+    try {
+        // Try to load from prompts folder (relative to project root)
+        const promptPath = path.join(app.getAppPath(), 'prompts', 'default-translation.txt')
+        if (fs.existsSync(promptPath)) {
+            return fs.readFileSync(promptPath, 'utf-8').trim()
+        }
+
+        // Fallback: try development path
+        const devPath = path.join(__dirname, '../../../../prompts/default-translation.txt')
+        if (fs.existsSync(devPath)) {
+            return fs.readFileSync(devPath, 'utf-8').trim()
+        }
+
+        logger.info('Default prompt file not found, using fallback')
+        return fallbackPrompt
+    } catch (error) {
+        logger.error('Failed to load default prompt file', error)
+        return fallbackPrompt
+    }
+}
+
+const DEFAULT_SYSTEM_PROMPT = loadDefaultPrompt()
+
 // Electron store for persistent config (encrypted API key storage)
 const store = new Store<GeminiStoreSchema>({
     name: 'gemini-config',
@@ -123,7 +150,7 @@ const store = new Store<GeminiStoreSchema>({
     schema: {
         api_key: { type: 'string', default: '' },
         model: { type: 'string', default: 'gemini-2.5-flash' },
-        system_prompt: { type: 'string', default: '' },
+        system_prompt: { type: 'string', default: DEFAULT_SYSTEM_PROMPT },
         timeout_ms: { type: 'number', default: 5000 },
     },
 })
@@ -132,7 +159,7 @@ const store = new Store<GeminiStoreSchema>({
 const DEFAULT_CONFIG: GeminiConfig = {
     api_key: '',
     model: 'gemini-2.5-flash',
-    system_prompt: '',
+    system_prompt: DEFAULT_SYSTEM_PROMPT,
     timeout_ms: 10000,  // 10 seconds for API response
 }
 
@@ -311,20 +338,31 @@ export class GeminiTranslationService {
 
     /**
      * Build system prompt for translation
+     * 
+     * Supports variable substitution:
+     * - ${sourceName} - Source language name (e.g., "Korean")
+     * - ${targetName} - Target language name (e.g., "Japanese")
+     * - ${sourceLang} - Source language code (e.g., "kor_Hang")
+     * - ${targetLang} - Target language code (e.g., "jpn_Jpan")
      */
     buildSystemPrompt(sourceLang: string, targetLang: string): string {
-        const sourceGemini = nllbToGemini(sourceLang)
-        const targetGemini = nllbToGemini(targetLang)
         const sourceName = getLanguageName(sourceLang)
         const targetName = getLanguageName(targetLang)
 
-        const customPrompt = this.config.system_prompt
-            ? `${this.config.system_prompt}\n\n`
-            : ''
+        // Use custom prompt if set, otherwise use default
+        const prompt = this.config.system_prompt || DEFAULT_SYSTEM_PROMPT
 
-        return `You are a professional translator. ${customPrompt}Translate the following text from ${sourceName} to ${targetName}.
+        // Replace variables in prompt
+        const result = prompt
+            .replace(/\$\{sourceName\}/g, sourceName)
+            .replace(/\$\{targetName\}/g, targetName)
+            .replace(/\$\{sourceLang\}/g, sourceLang)
+            .replace(/\$\{targetLang\}/g, targetLang)
 
-Output ONLY the translated text without any explanations, notes, or additional content.`
+        // DEBUG: Log the final system prompt
+        console.log('[Gemini] System Prompt:', result)
+
+        return result
     }
 
     /**

@@ -162,16 +162,31 @@
 
           <!-- System Prompt -->
           <v-col :cols="12">
-            <v-textarea
-              v-model="translationStore.gemini_system_prompt"
-              :label="t('settings.translation.gemini.system_prompt')"
-              :placeholder="t('settings.translation.gemini.system_prompt_placeholder')"
-              :hint="t('settings.translation.gemini.system_prompt_hint')"
-              persistent-hint
-              variant="outlined"
-              rows="3"
-              auto-grow
-            />
+            <v-expansion-panels variant="accordion">
+              <v-expansion-panel :title="t('settings.translation.gemini.system_prompt')">
+                <template #text>
+                  <v-textarea
+                    v-model="translationStore.gemini_system_prompt"
+                    :placeholder="t('settings.translation.gemini.system_prompt_placeholder')"
+                    :hint="t('settings.translation.gemini.system_prompt_hint')"
+                    persistent-hint
+                    variant="outlined"
+                    rows="6"
+                    auto-grow
+                    class="mt-2"
+                  />
+                  <v-btn
+                    variant="outlined"
+                    size="small"
+                    class="mt-2"
+                    prepend-icon="mdi-restore"
+                    @click="resetSystemPrompt"
+                  >
+                    Reset to Default
+                  </v-btn>
+                </template>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-col>
 
           <!-- Error Display -->
@@ -190,8 +205,7 @@
             item-title="title"
             item-value="value"
             auto-select-first
-            :hint="`${t('settings.translation.speech_lang')}${stt_language}`"
-            persistent-hint
+            hide-details
           />
         </v-col>
         <v-col :cols="12" :sm="6">
@@ -230,7 +244,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useTranslationStore } from '@/stores/translation'
 import { useSpeechStore } from '@/stores/speech'
 import translation_options from '@/constants/translation_options'
-import { GEMINI_MODELS } from '@/constants/gemini_models'
+import { GEMINI_MODELS, DEFAULT_GEMINI_SYSTEM_PROMPT } from '@/constants/gemini_models'
 
 const { t } = useI18n()
 
@@ -246,8 +260,14 @@ const apiKeyError = ref(false)
 const apiKeyValidated = ref(false)
 const hasStoredKey = ref(false)  // Track if key exists in secure storage
 const editingApiKey = ref(false) // Track if user is editing the API key
+const promptExpanded = ref(false) // Track if system prompt textarea is expanded
 
 const geminiModels = GEMINI_MODELS
+
+// Reset system prompt to default
+function resetSystemPrompt() {
+  translationStore.gemini_system_prompt = DEFAULT_GEMINI_SYSTEM_PROMPT
+}
 
 const translation_types = ref([
   {
