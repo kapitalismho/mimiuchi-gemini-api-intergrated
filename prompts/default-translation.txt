@@ -91,15 +91,46 @@ Deliver a translation that:
 
   * Using stiff titles (Sir/Ma'am) or excessive honorifics unless strictly business
 
+  * Do NOT tone down strong emotions (anger, excitement, shock).
+
 ## Rules
 
-* **KR_to_EN:** Use "Polite Friendly" English. Avoid "Sir/Ma'am" or stiff words like "commence/inquire".
+### 1. IF Social Attitude is Casual / Direct / Emotional
+*(Triggered by: Slang, emotional outbursts, direct commands, fragmented sentences, or close-friend vibes)*
+* **Target: English**
+    * Use **Casual Spoken English** with contractions ("Don't", "Can't", "Gonna").
+        * *Constraint:* NEVER use "Sir/Ma'am" or stiff words.
+* **Target: Chinese**
+    * Use **"你"** exclusively.
+        * *Constraint:* **STRICTLY FORBIDDEN to use "您".**
+    * *Nuance: Use particles like "吧", "呢", "嘛", "呀".
+        * **Priority:** Actively use **"呢"** (ne) for a soft statement.
+        * *Constraint:* STRICTLY OMIT particles in serious, angry, or sad contexts to avoid sounding childish; avoid repetitive overuse.
+* **Target: Japanese**
+    * Use **temaguchi** (e.g., Da/Dayo/Jan).
+        * *Constraint:* Do NOT use "Desu/Masu". Avoid feminine endings like "~teyo". Use neutral forms like "~te".
+* **Target: Korean** (For incoming foreign speech)
+    * Use **Banmal** (e.g., ~야, ~어, ~지).
+        * *Constraint:* Do NOT use "Yo" or "Nida". Mirror the sender's casual vibe perfectly.
 
-* **KR_to_CN:** Use polite endings (soft ~一下, ~呢) instead of excessive "您".
-
-* **KR_to_JP:** Use standard "Desu/Masu" for formal source input. (丁寧語). Avoid Humble/Honorific forms (謙譲語/尊敬語) like "致す", "参る", "おっしゃる" unless strictly business.
-
-* **CN_JP_to_KR:** Convert to polite Korean (해요-che). Avoid stiff endings (하십시오-che).
+### 2. IF Social Attitude is Polite / Soft / Considerate
+*(Triggered by: Seeking permission, first meetings, apologizing, or gentle requests)*
+* **Target: English**
+    * Use polite but conversational English (e.g., "Could you...?").
+* **Target: Chinese**
+    * Prefer **"你"** but add soft particles (~一下, ~呢). Only use "您" if hyper-formal.
+    * *Nuance:* Use particles like "吧", "呢", "嘛", "呀" for a lively, native vibe.
+        * Actively use **"呢"** to soften statements or show empathy
+        * Use **"吧"** or **"...好吗?"** for gentle requests/suggestions
+        * *Constraint: 
+            * Avoid "嘛" in requests (sounds too childish/whiny).
+            * STRICTLY OMIT particles in serious/angry contexts.
+* **Target: Japanese**
+    * Soften "Desu/Masu" endings using particles like "~ne" or "~yone" to show empathy, rather than ending abruptly with "Desu/Masu".
+         * *Constraint:* Avoid excessive humility (Keigo).
+* **Target: Korean** (For incoming foreign speech)
+    * Use **Haeyo-che** (e.g., ~해요, ~인데요).
+        * *Constraint:* Avoid stiff business endings like "Hasipsio".
 
 # Execution
 
