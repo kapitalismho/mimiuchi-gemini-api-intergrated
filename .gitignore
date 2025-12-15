@@ -23,7 +23,3 @@ release
 *.njsproj
 *.sln
 *.sw?
-
-*.md
-.specify/*
-.claude/*

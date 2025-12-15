@@ -6,7 +6,7 @@
  */
 
 // @ts-nocheck - electron-store types don't work well with ESM build
-import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import Store from 'electron-store'
 import { nllbToGemini, getLanguageName } from './language-mapper'
 import { app } from 'electron'
@@ -252,8 +252,7 @@ class RateLimiter {
  * Gemini Translation Service Class
  */
 export class GeminiTranslationService {
-    private genAI: GoogleGenerativeAI | null = null
-    private model: GenerativeModel | null = null
+    private genAI: GoogleGenAI | null = null
     private config: GeminiConfig
     private rateLimiter = new RateLimiter()
 
@@ -320,19 +319,14 @@ export class GeminiTranslationService {
     private initializeClient(): void {
         if (!this.config.api_key) {
             this.genAI = null
-            this.model = null
             return
         }
 
         try {
-            this.genAI = new GoogleGenerativeAI(this.config.api_key)
-            this.model = this.genAI.getGenerativeModel({
-                model: this.config.model,
-            })
+            this.genAI = new GoogleGenAI({ apiKey: this.config.api_key })
         } catch (error) {
             console.error('Failed to initialize Gemini client:', error)
             this.genAI = null
-            this.model = null
         }
     }
 
@@ -370,14 +364,16 @@ export class GeminiTranslationService {
      */
     async validateApiKey(apiKey: string): Promise<{ valid: boolean; error?: string }> {
         try {
-            const testGenAI = new GoogleGenerativeAI(apiKey)
-            const testModel = testGenAI.getGenerativeModel({
-                model: 'gemini-2.5-flash',
-                systemInstruction: 'Respond with just "OK"',
-            })
+            const testGenAI = new GoogleGenAI({ apiKey })
 
             const result = await Promise.race([
-                testModel.generateContent('Test'),
+                testGenAI.models.generateContent({
+                    model: 'gemini-2.5-flash',
+                    contents: 'Test',
+                    config: {
+                        systemInstruction: 'Respond with just "OK"',
+                    },
+                }),
                 new Promise<never>((_, reject) =>
                     setTimeout(() => reject(new Error('Validation timed out')), 10000)
                 ),
@@ -406,7 +402,7 @@ export class GeminiTranslationService {
         const { text, source_lang, target_lang, index, timestamp } = request
 
         // Check if client is initialized
-        if (!this.model || !this.genAI) {
+        if (!this.genAI) {
             return {
                 status: 'error',
                 output: '',
@@ -433,30 +429,27 @@ export class GeminiTranslationService {
         try {
             // Use rate limiter to queue the request
             const translation = await this.rateLimiter.enqueue(async () => {
-                // Create model with system instruction
-                // Disable thinking for faster response time
-                const translationModel = this.genAI!.getGenerativeModel({
-                    model: this.config.model,
-                    systemInstruction: this.buildSystemPrompt(source_lang, target_lang),
-                    generationConfig: {
-                        maxOutputTokens: 1000,
-                        temperature: 0.3,
-                        // Disable thinking for faster translations
-                        thinkingConfig: {
-                            thinkingBudget: 0,
-                        },
-                    } as any, // Type assertion needed for thinkingConfig
-                })
-
                 // Race against timeout
                 const result = await Promise.race([
-                    translationModel.generateContent(text),
+                    this.genAI!.models.generateContent({
+                        model: this.config.model,
+                        contents: text,
+                        config: {
+                            systemInstruction: this.buildSystemPrompt(source_lang, target_lang),
+                            maxOutputTokens: 1000,
+                            temperature: 0.3,
+                            // Disable thinking for faster translations
+                            thinkingConfig: {
+                                thinkingBudget: 0,
+                            },
+                        } as any, // Type assertion needed for thinkingConfig
+                    }),
                     new Promise<never>((_, reject) =>
                         setTimeout(() => reject(new Error('Request timed out')), this.config.timeout_ms)
                     ),
                 ])
 
-                return result.response.text()
+                return result.text || ''
             })
 
             return {
@@ -532,7 +525,7 @@ export class GeminiTranslationService {
      * Check if the service is ready to translate
      */
     isReady(): boolean {
-        return !!this.model && !!this.genAI
+        return !!this.genAI
     }
 }
 
