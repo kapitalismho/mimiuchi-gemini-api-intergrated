@@ -167,7 +167,7 @@
                 <template #text>
                   <v-textarea
                     v-model="translationStore.gemini_system_prompt"
-                    :placeholder="t('settings.translation.gemini.system_prompt_placeholder')"
+                    :placeholder="DEFAULT_GEMINI_SYSTEM_PROMPT"
                     :hint="t('settings.translation.gemini.system_prompt_hint')"
                     persistent-hint
                     variant="outlined"

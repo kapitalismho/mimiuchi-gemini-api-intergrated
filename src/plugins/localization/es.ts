@@ -168,7 +168,6 @@ export default {
         model_hint: 'Seleccione un modelo Gemini (recomendado: gemini-2.5-flash)',
         system_prompt: 'Instrucción del sistema',
         system_prompt_hint: 'Instrucciones personalizadas para el traductor (ej., "Habla como un pirata", "Usa argot casual de VRChat")',
-        system_prompt_placeholder: 'You are a professional translator. Translate the following text from ${sourceName} to ${targetName}. Output ONLY the translated text without any explanations.',
         cloud_notice: 'Gemini es una IA basada en la nube. Se requiere una clave API para usar este servicio.',
         error: 'Error de traducción: {error}',
         recommended: 'Recomendado',

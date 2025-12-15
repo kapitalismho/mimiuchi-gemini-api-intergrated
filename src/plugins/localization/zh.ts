@@ -169,7 +169,6 @@ export default {
         model_hint: '选择 Gemini 模型（推荐：gemini-2.5-flash）',
         system_prompt: '系统提示',
         system_prompt_hint: '翻译器的自定义指令（例如："像海盗一样说话"，"使用休闲的VRChat俚语"）',
-        system_prompt_placeholder: 'You are a professional translator. Translate the following text from ${sourceName} to ${targetName}. Output ONLY the translated text without any explanations.',
         cloud_notice: 'Gemini 是云端 AI。使用此服务需要 API 密钥。',
         error: '翻译错误：{error}',
         recommended: '推荐',
