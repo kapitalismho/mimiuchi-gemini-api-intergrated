@@ -67,19 +67,6 @@ export interface GeminiModel {
   recommended: boolean
 }
 
-/**
- * Language mapping between NLLB-200 and Gemini/BCP-47 codes
- */
-export interface LanguageMapping {
-  /** NLLB-200 code (e.g., 'eng_Latn') */
-  nllb: string
-  /** Gemini/BCP-47 code (e.g., 'en') */
-  gemini: string
-  /** Human-readable name */
-  name: string
-  /** Whether Gemini supports this language */
-  supported: boolean
-}
 
 /**
  * Gemini API error with user-friendly messaging

@@ -48,7 +48,6 @@
     "@types/webfontloader": "^1.6.38",
     "@types/ws": "^8.18.1",
     "@vitejs/plugin-vue": "^6.0.0",
-    "7zip-bin": "^5.2.0",
     "electron": "31.1.0",
     "electron-builder": "24.13.3",
     "eslint": "^9.29.0",

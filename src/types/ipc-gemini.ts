@@ -24,14 +24,6 @@ export const GEMINI_IPC_CHANNELS = {
 } as const
 
 /**
- * API key validation request
- */
-export interface ValidateKeyRequest {
-    /** API key to validate */
-    api_key: string
-}
-
-/**
  * API key validation response
  */
 export interface ValidateKeyResponse {
@@ -51,28 +43,6 @@ export interface GetConfigResponse {
     system_prompt: string
     /** Whether API key is set (but not the key itself) */
     api_key_set: boolean
-}
-
-/**
- * Save config request
- */
-export interface SaveConfigRequest {
-    /** API key (optional, only sent when changing) */
-    api_key?: string
-    /** Model ID */
-    model: string
-    /** Custom system prompt */
-    system_prompt: string
-}
-
-/**
- * Save config response
- */
-export interface SaveConfigResponse {
-    /** Whether save was successful */
-    success: boolean
-    /** Error message if failed */
-    error?: string
 }
 
 /**

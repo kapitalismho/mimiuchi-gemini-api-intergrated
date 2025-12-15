@@ -42,16 +42,3 @@ export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash'
  */
 export const DEFAULT_GEMINI_SYSTEM_PROMPT = defaultPromptRaw.trim()
 
-/**
- * Get a model by ID
- */
-export function getGeminiModelById(id: string): GeminiModel | undefined {
-    return GEMINI_MODELS.find(model => model.id === id)
-}
-
-/**
- * Get the recommended model
- */
-export function getRecommendedGeminiModel(): GeminiModel {
-    return GEMINI_MODELS.find(model => model.recommended) || GEMINI_MODELS[0]
-}
