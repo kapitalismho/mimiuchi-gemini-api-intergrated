@@ -320,9 +320,8 @@ ipcMain.handle('gemini-save-config', async (_event, config: {
 })
 
 // Translate text using Gemini
-ipcMain.on('gemini-translate', async (_event, args) => {
+ipcMain.on('gemini-translate', async (_event, request) => {
   const service = getGeminiTranslationService()
-  const request = JSON.parse(args)
 
   const result = await service.translate(request)
   win?.webContents.send('gemini-translate-render', result)

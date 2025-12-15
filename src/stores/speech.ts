@@ -324,13 +324,13 @@ export const useSpeechStore = defineStore('speech', () => {
 
         if (translationStore.type === 'Gemini') {
           // Use Gemini API translation
-          window.ipcRenderer.send('gemini-translate', JSON.stringify({
+          window.ipcRenderer.send('gemini-translate', {
             text: log.transcript,
             source_lang: translationStore.source,
             target_lang: translationStore.target,
             index: i,
             timestamp: Date.now(),
-          }))
+          })
         } else {
           // Use Transformers.js translation
           window.ipcRenderer.send('transformers-translate', {
