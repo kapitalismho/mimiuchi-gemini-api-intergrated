@@ -234,7 +234,9 @@ onMounted(() => {
     window.ipcRenderer.removeListener('update-check')
     window.ipcRenderer.send('update-check')
     window.ipcRenderer.on('update-check', (event: any, data: any) => {
-      if (data !== `v${APP_VERSION.value}`)
+      // Skip update notification for v0.5.0 (fork is based on this version)
+      // Only notify for versions after 0.5.0 (when PR may be merged)
+      if (data !== `v${APP_VERSION.value}` && data !== 'v0.5.0')
         update_available.value = true
     })
   }

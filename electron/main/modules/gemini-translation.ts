@@ -145,7 +145,7 @@ const DEFAULT_SYSTEM_PROMPT = loadDefaultPrompt()
 
 // Electron store for persistent config (encrypted API key storage)
 const store = new Store<GeminiStoreSchema>({
-    name: 'gemini-config',
+    name: 'gemini-config-fork',  // Separate from PR branch config
     encryptionKey: 'mimiuchi-gemini-secure-key-v1', // Simple encryption for API key
     schema: {
         api_key: { type: 'string', default: '' },

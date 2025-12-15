@@ -18,6 +18,7 @@ interface Schema {
 }
 
 const store = new Store<Schema>({
+  name: 'mimiuchi-gemini',  // Separate from original mimiuchi config
   schema: {
     'win_bounds': {
       type: 'object',
