@@ -149,7 +149,7 @@ const store = new Store<GeminiStoreSchema>({
     encryptionKey: 'mimiuchi-gemini-secure-key-v1', // Simple encryption for API key
     schema: {
         api_key: { type: 'string', default: '' },
-        model: { type: 'string', default: 'gemini-2.5-flash' },
+        model: { type: 'string', default: 'gemini-3-flash-preview' },
         system_prompt: { type: 'string', default: DEFAULT_SYSTEM_PROMPT },
         timeout_ms: { type: 'number', default: 5000 },
     },
@@ -158,7 +158,7 @@ const store = new Store<GeminiStoreSchema>({
 // Default configuration
 const DEFAULT_CONFIG: GeminiConfig = {
     api_key: '',
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     system_prompt: DEFAULT_SYSTEM_PROMPT,
     timeout_ms: 10000,  // 10 seconds for API response
 }
@@ -429,6 +429,14 @@ export class GeminiTranslationService {
         try {
             // Use rate limiter to queue the request
             const translation = await this.rateLimiter.enqueue(async () => {
+                // Build thinking config based on model
+                // Gemini 3 uses thinkingLevel ('MINIMAL', 'LOW', 'MEDIUM', 'HIGH')
+                // Gemini 2.x uses thinkingBudget (0 = disabled)
+                const isGemini3 = this.config.model.startsWith('gemini-3')
+                const thinkingConfig = isGemini3
+                    ? { thinkingLevel: 'MINIMAL' }  // Gemini 3: MINIMAL = almost no thinking
+                    : { thinkingBudget: 0 }         // Gemini 2.x: 0 = disable thinking
+
                 // Race against timeout
                 const result = await Promise.race([
                     this.genAI!.models.generateContent({
@@ -438,10 +446,7 @@ export class GeminiTranslationService {
                             systemInstruction: this.buildSystemPrompt(source_lang, target_lang),
                             maxOutputTokens: 1000,
                             temperature: 0.3,
-                            // Disable thinking for faster translations
-                            thinkingConfig: {
-                                thinkingBudget: 0,
-                            },
+                            thinkingConfig,
                         } as any, // Type assertion needed for thinkingConfig
                     }),
                     new Promise<never>((_, reject) =>

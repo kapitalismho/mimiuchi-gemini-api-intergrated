@@ -12,15 +12,21 @@ import defaultPromptRaw from '../../prompts/default-translation.txt?raw'
  */
 export const GEMINI_MODELS: GeminiModel[] = [
     {
+        id: 'gemini-3-flash-preview',
+        name: 'Gemini 3 Flash (Preview)',
+        description: '🎯 3/3  ⚡ 2.5/3',
+        recommended: true,
+    },
+    {
         id: 'gemini-2.5-flash',
         name: 'Gemini 2.5 Flash',
-        description: 'Best quality with fast response.',
-        recommended: true,
+        description: '🎯 2.5/3  ⚡ 2.5/3',
+        recommended: false,
     },
     {
         id: 'gemini-2.5-flash-lite',
         name: 'Gemini 2.5 Flash Lite',
-        description: 'Fastest response time, lightweight.',
+        description: '🎯 2/3  ⚡ 3/3',
         recommended: false,
     },
 ]
@@ -28,7 +34,7 @@ export const GEMINI_MODELS: GeminiModel[] = [
 /**
  * Default model ID
  */
-export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash'
+export const DEFAULT_GEMINI_MODEL = 'gemini-3-flash-preview'
 
 /**
  * Default system prompt for translation

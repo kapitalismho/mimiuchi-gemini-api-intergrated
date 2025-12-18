@@ -210,7 +210,7 @@ export default {
         invalid: 'Invalid API key',
         change_key: 'Change Key',
         model: 'Model',
-        model_hint: 'Select a Gemini model (recommended: gemini-2.5-flash)',
+        model_hint: 'Select a Gemini model (recommended: gemini-3-flash-preview)',
         system_prompt: 'System Prompt',
         system_prompt_hint: 'Custom instructions for the translator (e.g., "Talk like a pirate", "Use casual VRChat slang")',
         cloud_notice: 'Gemini is a cloud-based AI. An API key is required to use this service.',
