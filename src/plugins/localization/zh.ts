@@ -166,7 +166,7 @@ export default {
         valid: 'API 密钥有效',
         invalid: '无效的 API 密钥',
         model: '模型',
-        model_hint: '选择 Gemini 模型（推荐：gemini-2.5-flash）',
+        model_hint: '选择 Gemini 模型（推荐：gemini-3-flash-preview）',
         system_prompt: '系统提示',
         system_prompt_hint: '翻译器的自定义指令（例如："像海盗一样说话"，"使用休闲的VRChat俚语"）',
         cloud_notice: 'Gemini 是云端 AI。使用此服务需要 API 密钥。',

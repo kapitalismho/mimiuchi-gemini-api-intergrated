@@ -188,7 +188,7 @@ export default {
         valid: 'APIキーは有効です',
         invalid: '無効なAPIキー',
         model: 'モデル',
-        model_hint: 'Geminiモデルを選択（推奨: gemini-2.5-flash）',
+        model_hint: 'Geminiモデルを選択（推奨: gemini-3-flash-preview）',
         system_prompt: 'システムプロンプト',
         system_prompt_hint: '翻訳者へのカスタム指示（例：「海賊のように話す」、「カジュアルなVRChatスラングを使う」）',
         cloud_notice: 'Geminiはクラウドベースの AIです。このサービスを使用するにはAPIキーが必要です。',

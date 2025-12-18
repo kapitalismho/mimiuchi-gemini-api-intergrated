@@ -165,7 +165,7 @@ export default {
         valid: 'Clave API válida',
         invalid: 'Clave API inválida',
         model: 'Modelo',
-        model_hint: 'Seleccione un modelo Gemini (recomendado: gemini-2.5-flash)',
+        model_hint: 'Seleccione un modelo Gemini (recomendado: gemini-3-flash-preview)',
         system_prompt: 'Instrucción del sistema',
         system_prompt_hint: 'Instrucciones personalizadas para el traductor (ej., "Habla como un pirata", "Usa argot casual de VRChat")',
         cloud_notice: 'Gemini es una IA basada en la nube. Se requiere una clave API para usar este servicio.',
